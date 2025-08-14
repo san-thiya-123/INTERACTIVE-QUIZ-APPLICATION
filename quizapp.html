@@ -3,317 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Quiz App</title>
+    <title>Simple Quiz App</title>
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-        }
-
-        /* Header Styles */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            background-color: #4a6fa5;
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        /* Quiz Intro Section */
-        .quiz-intro {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
-        .quiz-intro p {
+        .quiz-container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .question {
+            font-size: 1.2em;
             margin-bottom: 20px;
         }
-
-        .start-btn {
-            background-color: #4a6fa5;
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
-
-        .start-btn:hover {
-            background-color: #3a5a80;
+        button:hover {
+            background-color: #45a049;
         }
-
-        /* Quiz Container */
-        .quiz-container {
-            display: none;
+        .option-btn {
+            padding: 10px;
             background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .question-count {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        /* Answer Options */
-        .answer-options {
-            margin-bottom: 25px;
-        }
-
-        .option {
-            display: block;
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background-color: #f5f7fa;
+            color: black;
             border: 1px solid #ddd;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
             text-align: left;
         }
-
-        .option:hover {
-            background-color: #e1e5eb;
+        .option-btn:hover {
+            background-color: #f0f0f0;
         }
-
-        .option.selected {
-            background-color: #4a6fa5;
-            color: white;
-            border-color: #4a6fa5;
+        .selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
         }
-
-        /* Navigation Buttons */
-        .quiz-navigation {
-            display: flex;
-            justify-content: space-between;
+        .correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
         }
-
-        .nav-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background-color 0.3s;
+        .incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
         }
-
-        .prev-btn {
-            background-color: #f5f7fa;
-            color: #333;
-        }
-
-        .prev-btn:hover {
-            background-color: #e1e5eb;
-        }
-
-        .next-btn {
-            background-color: #4a6fa5;
-            color: white;
-        }
-
-        .next-btn:hover {
-            background-color: #3a5a80;
-        }
-
-        .submit-btn {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .submit-btn:hover {
-            background-color: #218838;
-        }
-
-        /* Results Section */
-        .results-container {
-            display: none;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .results-container h2 {
-            margin-bottom: 20px;
-            color: #4a6fa5;
-        }
-
         .score {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .restart-btn {
-            background-color: #4a6fa5;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 1.2em;
             margin-top: 20px;
+            font-weight: bold;
         }
-
-        .restart-btn:hover {
-            background-color: #3a5a80;
+        .next-btn {
+            display: none;
+            margin-top: 10px;
         }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background-color: #f5f7fa;
-            border-radius: 4px;
+        .progress {
             margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: #4a6fa5;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
-            }
-            
-            .quiz-navigation {
-                flex-direction: column;
-            }
-            
-            .nav-btn {
-                margin-bottom: 10px;
-                width: 100%;
-            }
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Knowledge Challenge</h1>
-            <p>Test your skills with this interactive quiz</p>
-        </header>
-
-        <!-- Quiz Introduction -->
-        <div class="quiz-intro" id="quiz-intro">
-            <h2>Welcome to the Quiz!</h2>
-            <p>This quiz contains 10 questions on various topics. You'll have multiple choice options for each question.</p>
-            <p>Good luck!</p>
-            <button class="start-btn" id="start-btn">Start Quiz</button>
+    <div class="quiz-container">
+        <h1>Simple Quiz App</h1>
+        <div class="progress">Question <span id="current-question">1</span>/<span id="total-questions">5</span></div>
+        <div class="question" id="question">Loading question...</div>
+        <div class="options" id="options">
+            <!-- Options will be inserted here by JavaScript -->
         </div>
-
-        <!-- Quiz Container -->
-        <div class="quiz-container" id="quiz-container">
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            
-            <div class="question-count" id="question-count">
-                Question 1 of 10
-            </div>
-            
-            <div class="question-text" id="question-text">
-                This is a sample question text that would be replaced by actual questions from your quiz data.
-            </div>
-            
-            <div class="answer-options" id="answer-options">
-                <button class="option" data-option="1">Option 1</button>
-                <button class="option" data-option="2">Option 2</button>
-                <button class="option" data-option="3">Option 3</button>
-                <button class="option" data-option="4">Option 4</button>
-            </div>
-            
-            <div class="quiz-navigation">
-                <button class="nav-btn prev-btn" id="prev-btn" disabled>Previous</button>
-                <button class="nav-btn next-btn" id="next-btn">Next</button>
-            </div>
-        </div>
-
-        <!-- Results Container -->
-        <div class="results-container" id="results-container">
-            <h2>Quiz Completed!</h2>
-            <div class="score" id="score">You scored 7 out of 10</div>
-            <p id="result-message">Good job! You have a solid understanding of the topics.</p>
-            <button class="restart-btn" id="restart-btn">Take Quiz Again</button>
-        </div>
+        <button id="submit-btn">Submit Answer</button>
+        <button id="next-btn" class="next-btn">Next Question</button>
+        <div class="score" id="score">Score: 0/0</div>
     </div>
 
     <script>
-        // This is where the JavaScript would go to make the quiz interactive
-        // For a complete solution, you would need to add JavaScript functionality
-        document.getElementById('start-btn').addEventListener('click', function() {
-            document.getElementById('quiz-intro').style.display = 'none';
-            document.getElementById('quiz-container').style.display = 'block';
-        });
+        // Quiz questions
+        const quizQuestions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Paris", "Berlin", "Madrid"],
+                correctAnswer: 1
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correctAnswer: 1
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correctAnswer: 1
+            },
+            {
+                question: "Which language runs in a web browser?",
+                options: ["Java", "C", "Python", "JavaScript"],
+                correctAnswer: 3
+            },
+            {
+                question: "What year was JavaScript launched?",
+                options: ["1996", "1995", "1994", "1997"],
+                correctAnswer: 1
+            }
+        ];
 
-        // Sample option selection
-        const options = document.querySelectorAll('.option');
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                options.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
+        // DOM elements
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const submitButton = document.getElementById('submit-btn');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+
+        // Quiz state
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+        let answerSubmitted = false;
+
+        // Initialize the quiz
+        function startQuiz() {
+            totalQuestionsElement.textContent = quizQuestions.length;
+            showQuestion();
+        }
+
+        // Display the current question
+        function showQuestion() {
+            resetState();
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+            currentQuestionElement.textContent = currentQuestionIndex + 1;
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-btn');
+                button.addEventListener('click', () => selectOption(index));
+                optionsElement.appendChild(button);
             });
-        });
+        }
 
-        // For a complete quiz, you would need to add:
-        // - Question data (array of objects)
-        // - Navigation between questions
-        // - Score calculation
-        // - Progress bar updating
-        // - Results display
+        // Reset the question state
+        function resetState() {
+            answerSubmitted = false;
+            selectedOption = null;
+            optionsElement.innerHTML = '';
+            submitButton.style.display = 'block';
+            nextButton.style.display = 'none';
+            
+            // Remove any previous feedback classes from options
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => {
+                button.classList.remove('selected', 'correct', 'incorrect');
+            });
+        }
+
+        // Select an option
+        function selectOption(index) {
+            if (answerSubmitted) return;
+            
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => button.classList.remove('selected'));
+            optionButtons[index].classList.add('selected');
+            selectedOption = index;
+        }
+
+        // Submit the answer
+        function submitAnswer() {
+            if (selectedOption === null || answerSubmitted) return;
+            
+            answerSubmitted = true;
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const optionButtons = document.querySelectorAll('.option-btn');
+            
+            // Highlight correct and incorrect answers
+            optionButtons[currentQuestion.correctAnswer].classList.add('correct');
+            if (selectedOption !== currentQuestion.correctAnswer) {
+                optionButtons[selectedOption].classList.add('incorrect');
+            }
+            
+            // Update score if correct
+            if (selectedOption === currentQuestion.correctAnswer) {
+                score++;
+                scoreElement.textContent = `Score: ${score}/${quizQuestions.length}`;
+            }
+            
+            submitButton.style.display = 'none';
+            nextButton.style.display = 'block';
+        }
+
+        // Move to the next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                showQuestion();
+            } else {
+                // Quiz completed
+                questionElement.textContent = `Quiz completed! Your score: ${score}/${quizQuestions.length}`;
+                optionsElement.innerHTML = '';
+                submitButton.style.display = 'none';
+                nextButton.style.display = 'none';
+            }
+        }
+
+        // Event listeners
+        submitButton.addEventListener('click', submitAnswer);
+        nextButton.addEventListener('click', nextQuestion);
+
+        // Start the quiz
+        startQuiz();
     </script>
 </body>
 </html>
